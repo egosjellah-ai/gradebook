@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gradebook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 280px; background-color: #0f172a; color: #fff; display: flex; flex-direction: column; padding: 24px; justify-content: space-between; }
+        .sidebar-top { display: flex; flex-direction: column; gap: 40px; }
+        .brand { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; padding-left: 8px; letter-spacing: -0.5px; }
+        .brand-icon { background: linear-gradient(135deg, #6366f1, #4f46e5); padding: 8px; border-radius: 10px; font-size: 18px; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4); }
+
+        .nav-links { display: flex; flex-direction: column; gap: 8px; }
+        .nav-links a { text-decoration: none; color: #94a3b8; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 12px; transition: all 0.2s ease; }
+        .nav-links a:hover { background: rgba(255,255,255,0.05); color: #fff; transform: translateX(4px); }
+        .nav-links a.active { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); }
+        .logout-btn { text-decoration: none; color: #fca5a5; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 12px; background: rgba(239, 68, 68, 0.1); transition: all 0.2s ease; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .logout-btn:hover { background: rgba(239, 68, 68, 0.2); color: #fff; transform: translateY(-2px); }
+
+        /* MAIN */
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #ffffff; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+        .header h2 { font-size: 20px; font-weight: 700; color: #0f172a; }
+        .content { padding: 40px; overflow-y: auto; }
+        .page-title { font-size: 26px; font-weight: 700; margin-bottom: 24px; color: #0f172a; }
+
+        /* BUTTONS */
+        .actions { display: flex; gap: 16px; margin-bottom: 32px; }
+        .btn { padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+        .btn-teacher { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3); }
+        .btn-student { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+        /* TABS & SEARCH */
+        .table-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #ffffff; padding: 16px 24px; border-radius: 16px 16px 0 0; border: 1px solid #f1f5f9; border-bottom: none; }
+        .tabs { display: flex; gap: 10px; }
+        .tab-btn { padding: 8px 20px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: #64748b; background: transparent; text-decoration: none; display: inline-block; }
+        .tab-btn:hover { background: #f1f5f9; }
+        .tab-btn.active { background: #0f172a; color: white; }
+
+        .search-box { position: relative; width: 300px; margin: 0; }
+        .search-box input { width: 100%; padding: 10px 16px 10px 40px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc; }
+        .search-box input:focus { border-color: #6366f1; background: #fff; }
+        .search-box svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #94a3b8; }
+
+        /* TABLE */
+        .table-card { background: #ffffff; border-radius: 0 0 20px 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #f1f5f9; border-top: none; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f8fafc; padding: 18px 24px; font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 18px 24px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        tr:hover td { background: #f8fafc; }
+        .role-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+        .role-teacher { background: #e0e7ff; color: #4338ca; }
+        .role-student { background: #d1fae5; color: #047857; }
+        .role-admin { background: #f1f5f9; color: #475569; }
+        .action-link { font-weight: 600; text-decoration: none; margin-right: 16px; font-size: 14px; }
+        .edit { color: #3b82f6; }
+        .delete { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-top">
+            <div class="brand"><div class="brand-icon">🎓</div> Gradebook</div>
+            <div class="nav-links">
+                <a href="{% url 'admin_dashboard' %}" class="active">👥 Manage All Users</a>
+                <a href="#">📁 Manage Academic Records</a>
+                <a href="#">📊 View All Grades</a>
+            </div>
+        </div>
+        <a href="{% url 'logout' %}" class="logout-btn">🚪 Sign Out</a>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <h2>Welcome back, Admin</h2>
+        </div>
+        <div class="content">
+
+            <!-- 👈 DINHI NAKO GIDUGANG ANG MGA NOTIFICATIONS (GREEN/RED) -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="background: {% if message.tags == 'success' %}#10b981{% else %}#ef4444{% endif %}; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <h1 class="page-title">Manage Users</h1>
+
+            <div class="actions">
+                <a href="{% url 'create_teacher' %}" class="btn btn-teacher">+ Create Teacher Account</a>
+                <a href="{% url 'create_student' %}" class="btn btn-student">+ Create Student Account</a>
+            </div>
+
+            <!-- SEARCH & TABS FORM -->
+            <div class="table-controls">
+                <div class="tabs">
+                    <!-- Ang mga links ni kay mag-change sa URL parameter para mo-filter -->
+                    <a href="?role=all{% if search_query %}&search={{ search_query }}{% endif %}"
+                       class="tab-btn {% if current_role == 'all' %}active{% endif %}">All Users</a>
+
+                    <a href="?role=teacher{% if search_query %}&search={{ search_query }}{% endif %}"
+                       class="tab-btn {% if current_role == 'teacher' %}active{% endif %}">Teachers</a>
+
+                    <a href="?role=student{% if search_query %}&search={{ search_query }}{% endif %}"
+                       class="tab-btn {% if current_role == 'student' %}active{% endif %}">Students</a>
+                </div>
+
+                <form method="GET" action="" class="search-box">
+                    <!-- Hidden input para dili mawala ang tab nga gi-pili inig-search -->
+                    <input type="hidden" name="role" value="{{ current_role }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" name="search" placeholder="Search by name or email..." value="{{ search_query }}">
+                </form>
+            </div>
+
+            <!-- DYNAMIC USER TABLE -->
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td><b>{{ user.full_name }}</b></td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.role == 'teacher' %}
+                                    <span class="role-badge role-teacher">Teacher</span>
+                                {% elif user.role == 'student' %}
+                                    <span class="role-badge role-student">Student</span>
+                                {% else %}
+                                    <span class="role-badge role-admin">Admin</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#" class="action-link edit">Edit</a>
+                                <a href="#" class="action-link delete">Delete</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">
+                                No users found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

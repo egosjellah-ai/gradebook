@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Grades - Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; }
+
+        .navbar { background: #ffffff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
+        .brand { font-size: 20px; font-weight: 700; color: #4f46e5; display: flex; align-items: center; gap: 10px; }
+        .user-profile { display: flex; align-items: center; gap: 20px; }
+        .user-profile span { font-weight: 600; font-size: 15px; }
+        .logout { color: #64748b; text-decoration: none; font-weight: 500; font-size: 14px; padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+        .welcome-banner { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 30px 40px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4); }
+        .welcome-banner h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        .welcome-banner p { font-size: 15px; opacity: 0.9; }
+
+        .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; overflow: hidden; border: 1px solid #f1f5f9; }
+        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 25px; color: #1e293b; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px 10px; font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 18px 10px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        td:first-child { font-weight: 600; color: #0f172a; }
+        .grade-val { font-weight: 700; color: #1e293b; }
+
+        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+        .badge-passed { background: #dcfce7; color: #16a34a; }
+        .badge-incomplete { background: #fef3c7; color: #d97706; }
+
+        .average-section { background: #f8fafc; padding: 25px; border-radius: 12px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; }
+        .average-section h3 { font-size: 16px; color: #475569; font-weight: 600; }
+        .average-val { font-size: 24px; font-weight: 700; }
+        .note { text-align: center; margin-top: 20px; font-size: 13px; color: #94a3b8; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">🎓 Gradebook Portal</div>
+        <div class="user-profile">
+            <span>Hi, Jellah Buale Egos</span>
+            <a href="{% url 'login' %}" class="logout">Log out</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-banner">
+            <h1>My Grade Card</h1>
+            <p>Jellah Buale Egos &bull; Grade 7 - Rizal &bull; Semestral System (S.Y. 2026-2027)</p>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Academic Performance</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Learning Areas</th>
+                        <th>Prelim</th>
+                        <th>Midterm</th>
+                        <th>Semi-Final</th>
+                        <th>Final</th>
+                        <th>Final Rating</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mathematics</td>
+                        <td>90</td>
+                        <td>92</td>
+                        <td>91</td>
+                        <td>95</td>
+                        <td class="grade-val">92</td>
+                        <td><span class="badge badge-passed">Passed</span></td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>88</td>
+                        <td style="color:#cbd5e1;">—</td>
+                        <td style="color:#cbd5e1;">—</td>
+                        <td style="color:#cbd5e1;">—</td>
+                        <td class="grade-val" style="color:#d97706;">—</td>
+                        <td><span class="badge badge-incomplete">Incomplete</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="average-section">
+                <h3>General Average</h3>
+                <div class="average-val" style="color:#d97706;">Incomplete</div>
+            </div>
+
+            <p class="note">* Blank or incomplete grades mean the teacher has not yet posted a score for that term.</p>
+        </div>
+    </div>
+</body>
+</html>

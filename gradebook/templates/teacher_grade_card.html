@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Card - Teacher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        .sidebar { width: 280px; background-color: #0f172a; color: #fff; display: flex; flex-direction: column; padding: 24px; justify-content: space-between; }
+        .sidebar-top { display: flex; flex-direction: column; gap: 40px; }
+        .brand { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; padding-left: 8px; }
+        .brand-icon { background: linear-gradient(135deg, #10b981, #059669); padding: 8px; border-radius: 10px; font-size: 18px; }
+        .nav-links { display: flex; flex-direction: column; gap: 8px; }
+        .nav-links a { text-decoration: none; color: #94a3b8; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-links a.active { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3); }
+        .logout-btn { text-decoration: none; color: #fca5a5; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 12px; background: rgba(239, 68, 68, 0.1); }
+
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #ffffff; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+        .header h2 { font-size: 20px; font-weight: 700; }
+        .content { padding: 40px; overflow-y: auto; }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #64748b; font-weight: 600; font-size: 14px; margin-bottom: 20px; transition: 0.2s; }
+        .btn-back:hover { color: #0f172a; }
+
+        .card { background: white; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 30px; border: 1px solid #f1f5f9; }
+        .card-header { margin-bottom: 25px; border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .card-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #0f172a; }
+        .card-header p { color: #64748b; font-size: 15px; font-weight: 500; }
+        .badge-system { background: #d1fae5; color: #047857; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px 10px; font-size: 13px; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 15px 10px; border-bottom: 1px solid #f1f5f9; font-size: 15px; font-weight: 500; }
+        .grade-input { width: 80px; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-weight: 600; text-align: center; outline: none; transition: 0.2s; }
+        .grade-input:focus { border-color: #10b981; background: #f0fdf4; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        .remove-btn { color: #ef4444; text-decoration: none; font-weight: 600; font-size: 14px; }
+
+        .form-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #f1f5f9; }
+        .btn { padding: 12px 24px; border-radius: 10px; border: none; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.2s; }
+        .btn-save { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); }
+        .btn-add { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-top">
+            <div class="brand"><div class="brand-icon">📝</div> Gradebook</div>
+            <div class="nav-links">
+                <a href="#">👥 Manage Student Accounts</a>
+                <a href="#">📁 Manage Academic Records</a>
+                <a href="{% url 'teacher_grades' %}" class="active">⭐ Manage Grades</a>
+            </div>
+        </div>
+        <a href="{% url 'login' %}" class="logout-btn">🚪 Sign Out</a>
+    </div>
+
+    <div class="main">
+        <div class="header"><h2>Welcome, Teacher</h2></div>
+        <div class="content">
+            <a href="{% url 'teacher_grades' %}" class="btn-back">← Back to Students List</a>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h1>Grade Card: Jellah Buale Egos</h1>
+                        <p>Grade 7 - Rizal &bull; Email: jellah.egos@school.edu</p>
+                    </div>
+                    <div class="badge-system">Semestral System</div>
+                </div>
+
+                <form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Prelim</th>
+                                <th>Midterm</th>
+                                <th>Semi-Final</th>
+                                <th>Final</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mathematics</td>
+                                <td><input type="number" class="grade-input" value="90"></td>
+                                <td><input type="number" class="grade-input" value="92"></td>
+                                <td><input type="number" class="grade-input" value="91"></td>
+                                <td><input type="number" class="grade-input" value="95"></td>
+                                <td><a href="#" class="remove-btn">Remove</a></td>
+                            </tr>
+                            <tr>
+                                <td>Science</td>
+                                <td><input type="number" class="grade-input" value="88"></td>
+                                <td><input type="number" class="grade-input" placeholder="-"></td>
+                                <td><input type="number" class="grade-input" placeholder="-"></td>
+                                <td><input type="number" class="grade-input" placeholder="-"></td>
+                                <td><a href="#" class="remove-btn">Remove</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-add">+ Add Subject</button>
+                        <button type="submit" class="btn btn-save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

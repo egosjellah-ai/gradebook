@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Grades - Teacher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        .sidebar { width: 280px; background-color: #0f172a; color: #fff; display: flex; flex-direction: column; padding: 24px; justify-content: space-between; }
+        .sidebar-top { display: flex; flex-direction: column; gap: 40px; }
+        .brand { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; padding-left: 8px; }
+        .brand-icon { background: linear-gradient(135deg, #10b981, #059669); padding: 8px; border-radius: 10px; font-size: 18px; }
+        .nav-links { display: flex; flex-direction: column; gap: 8px; }
+        .nav-links a { text-decoration: none; color: #94a3b8; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-links a.active { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3); }
+        .logout-btn { text-decoration: none; color: #fca5a5; padding: 14px 16px; border-radius: 12px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 12px; background: rgba(239, 68, 68, 0.1); }
+
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #ffffff; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+        .header h2 { font-size: 20px; font-weight: 700; }
+        .content { padding: 40px; overflow-y: auto; }
+        .page-title { font-size: 26px; font-weight: 700; margin-bottom: 24px; }
+
+        .record-selector { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        .record-selector label { display: block; font-weight: 600; margin-bottom: 12px; color: #475569; font-size: 15px; }
+        .record-selector select { width: 100%; max-width: 500px; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-weight: 600; outline: none; color: #1e293b; }
+
+        .table-card { background: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #f1f5f9; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f8fafc; padding: 18px 24px; font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 18px 24px; border-bottom: 1px solid #f1f5f9; font-size: 15px; }
+        .btn-view { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-top">
+            <div class="brand"><div class="brand-icon">📝</div> Gradebook</div>
+            <div class="nav-links">
+                <a href="#">👥 Manage Student Accounts</a>
+                <a href="#">📁 Manage Academic Records</a>
+                <a href="{% url 'teacher_grades' %}" class="active">⭐ Manage Grades</a>
+            </div>
+        </div>
+        <a href="{% url 'login' %}" class="logout-btn">🚪 Sign Out</a>
+    </div>
+
+    <div class="main">
+        <div class="header"><h2>Welcome, Teacher</h2></div>
+        <div class="content">
+            <h1 class="page-title">Manage Grades</h1>
+            <div class="record-selector">
+                <label>Select Academic Record:</label>
+                <select>
+                    <option>Grade 7 - Rizal (Semestral System)</option>
+                    <option>Grade 8 - Mabini (Quarterly System)</option>
+                </select>
+            </div>
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email Address</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Jellah Buale Egos</b></td>
+                            <td>jellah.egos@school.edu</td>
+                            <td><span style="color:#10b981; font-weight:600;">Enrolled</span></td>
+                            <td><a href="{% url 'teacher_grade_card' %}" class="btn-view">View Grades</a></td>
+                        </tr>
+                        <tr>
+                            <td><b>Maria Santos</b></td>
+                            <td>maria.santos@school.edu</td>
+                            <td><span style="color:#10b981; font-weight:600;">Enrolled</span></td>
+                            <td><a href="{% url 'teacher_grade_card' %}" class="btn-view">View Grades</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
